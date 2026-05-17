@@ -7,6 +7,12 @@ export async function GET() {
     const userCount = await prisma.user.count()
     return NextResponse.json({ ok: true, userCount, dbUrl: process.env.DATABASE_URL?.slice(0, 50) + "..." })
   } catch (e: any) {
-    return NextResponse.json({ ok: false, error: e.message, code: e.code }, { status: 500 })
+    return NextResponse.json({
+      ok: false,
+      error: e.message,
+      code: e.code,
+      dbUrl: process.env.DATABASE_URL?.slice(0, 60) + "...",
+      directUrl: process.env.DIRECT_URL?.slice(0, 60) + "...",
+    }, { status: 500 })
   }
 }
