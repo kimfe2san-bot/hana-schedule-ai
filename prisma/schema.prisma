@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token                  String?
+  session_state             String?
+  refresh_token_expires_in  Int?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  ideas         Idea[]
+  projects      Project[]
+  todos         Todo[]
+  categories    Category[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Idea {
+  id        String   @id @default(cuid())
+  title     String
+  content   String?
+  category  String   @default("general")
+  status    String   @default("capture")
+  userId    String
+  eventId   String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id      String @id @default(cuid())
+  name    String
+  colorId String
+  color   String
+  ord     Int    @default(0)
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Todo {
+  id        String   @id @default(cuid())
+  text      String
+  done      Boolean  @default(false)
+  date      String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  category    String   @default("content")
+  status      String   @default("active")
+  progress    Int      @default(0)
+  color       String   @default("#10b981")
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

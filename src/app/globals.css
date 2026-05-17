@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg:       #f8f9fa;
+  --surface:  #ffffff;
+  --elevated: #ffffff;
+  --hover:    #f1f3f4;
+  --border:   #dadce0;
+  --border-2: #e8eaed;
+  --text:     #202124;
+  --text-2:   #5f6368;
+  --text-3:   #9aa0a6;
+  --muted:    #e8f0fe;
+  --card:     #ffffff;
+  --accent:   #1a73e8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "Google Sans", -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+/* date/time input */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: none;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+/* placeholder color */
+::placeholder { color: var(--text-3); }
+
+/* 스크롤바 스타일 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #dadce0;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #bdc1c6;
+}
+
+/* 기본 카드 스타일 */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+  animation: fadeIn 0.25s ease-out;
+}
+
+/* 진행 바 */
+.progress-bar {
+  height: 4px;
+  border-radius: 2px;
+  background: #e8eaed;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+/* 뱃지 */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* 모바일 사이드바 슬라이드 인 */
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.25s ease-out;
+}
+
+/* PWA: iOS 노치/홈바 safe area */
+body {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* 터치 하이라이트 제거 */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 모바일 스크롤 최적화 */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
